@@ -1,5 +1,8 @@
 # ansible-consul-demo
-Demo of Consul and Ansible
+
+Demo of Consul and Ansible. This is the source-code of on-stage demo created for Ansible Fest NY, 2015.
+
+You can view the accompanying slidedeck of the presentation at: <http://www.slideshare.net/irakli/ansible-fest-irakli>
 
 ## Installation
 
@@ -27,6 +30,7 @@ same level as this README). Please make sure to indicate **public** IPs.
 1. You are probably going to need following ports open (based on 
    <https://www.consul.io/docs/agent/options.html> customize as you see fit):
     ![](http://media.froyo.io/image/402Y3I2o393G/Configuration_-_Consul_by_HashiCorp.png)
+1. If you need to copy security group configuration across AWS regions, this script is a life-saver: https://github.com/pedropregueiro/migrate-ec2-secgroups    
 
 ## Quickstart
 
@@ -61,6 +65,8 @@ ansible-playbook webheads.yml -i hosts
 http://<ip-of-a-consul-server>:8500/
 ```
 
+Your microservices will be available at: http://microservice-hello.service.consul on any host that points to Consul DNS servers as the DNS.
+
 ## Debugging
 
 Consul logs are under: `/var/log/upstart/consul.log`
@@ -79,3 +85,12 @@ consul info
 ```
 
 and analyze the `raft:` section of the response.
+## Troubleshooting
+
+If you are on a network that doesn't allow access to custom port you can create an SSH proxy:
+
+```
+ssh -D 12345 myuser@remote_ssh_server
+```
+
+and then in your browser proxu settings indicate SOCKS5 proxy with hostname: localhost, port: 12345.
